@@ -9,3 +9,10 @@
     margin-bottom: 5px;
     display: block;
 }
+/* .col button{
+    margin-left: 500px;
+} */
+#buttonid{
+    margin-left: 10px;
+    margin-right: 5px;
+}

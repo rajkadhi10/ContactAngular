@@ -1,65 +1,158 @@
-<app-navbar></app-navbar>
-<div class="container py-3">
-    <div class="row">
-        <div class="col-md-6">
-            <h2>Contact Manager</h2>
-        </div>
-        <div class="col ml-auto text-right">
-            <button type="button" class="btn btn-outline-success" (click)="onAddContact()">Add Contact</button>
-        </div>
+<div class="conatiner-fluid">
+  <nav class="navbar navbar-light bg-primary">
+    <div class="container-fluid">
+      <h5 style="color: aliceblue">Address Book</h5>
+      <div class="d-flex">
+        <button
+          id="buttonid"
+          class="btn btn-success"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+          (click)="showModalButton(true)"
+        >
+          Add Contact
+        </button>
+        <button id="buttonid" class="btn btn-danger" routerLink="/login">
+          Logout
+        </button>
+      </div>
     </div>
-    <hr>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Komal Saini</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">9193996829</h6>
-                    <span class="badge badge-success" >Sister</span>
-                    <hr>
-                    <button type="button" class="btn btn-sm btn-outline-primary mr-2">Edit</button>
-                    <button type="button" class="btn btn-sm btn-outline-danger">Delete</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+  </nav>
 
-<div class="modal fade show" [class.show]="showModal">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Add Contact</h5>
-                <button (click)="onCloseModal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form [formGroup]="conForm" (ngSubmit)="onConSubmit()">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>Enter Name</label>
-                        <input type="text" class="form-control" formControlName="name">
-                        <small *ngIf="!conForm.get('name')?.valid && conForm.get('name')?.touched" class="form-text text-danger">Please Enter Name.</small>
-                    </div>
-                    <div class="form-group">
-                        <label>Enter Contact</label>
-                        <input type="phone" class="form-control" formControlName="contact">
-                        <small *ngIf="!conForm.get('contact')?.valid && conForm.get('contact')?.touched" class="form-text text-danger">Please Enter phone no.</small>
-                    </div>
-                    <div class="form-group">
-                        <label>Enter Relation</label>
-                        <select class="custom-select" formControlName="rel">
-                            <option value="Relative">Relative</option>
-                            <option value="Friend">Friend</option>
-                            <option value="Work">Work</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" (click)="onCloseModal()" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">{{editMode ? 'Update Contact' :'Add Contact'}}</button>
-                </div>
-            </form>
+  <!-- Add Contact Modal -->
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel" *ngIf="isAdding">
+            Contact Details
+          </h5>
+          <h5 class="modal-title" id="exampleModalLabel" *ngIf="isEditing">
+            Edit Contact Details
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
         </div>
+        <div class="modal-body">
+          <form [formGroup]="contactForm">
+            <div class="mb-3">
+              <label for="name" class="form-label">Contact Name</label>
+              <input
+                type="text"
+                formControlName="contactName"
+                class="form-control"
+                id="name"
+                name="name"
+                aria-describedby="emailHelp"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="company" class="form-label">Company</label>
+              <input
+                type="text"
+                formControlName="companyName"
+                class="form-control"
+                id="company"
+                name="company"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email Address</label>
+              <input
+                type="email"
+                formControlName="email"
+                class="form-control"
+                id="email"
+                name="email"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="phone" class="form-label">Phone No.</label>
+              <input
+                type="tel"
+                formControlName="phoneNo"
+                class="form-control"
+                id="phone"
+                name="phone"
+              />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+            (click)="resetFormData()"
+          >
+            Close
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            data-bs-dismiss="modal"
+            *ngIf="isAdding"
+            id="add"
+            (click)="addAndUpdate(true)"
+          >
+            Add
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            data-bs-dismiss="modal"
+            *ngIf="isEditing"
+            id="edit"
+            (click)="addAndUpdate()"
+          >
+            Edit
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <table class="table mt-5 table-hover">
+    <tr>
+      <td>id</td>
+      <td>Contact</td>
+      <td>Company</td>
+      <td>Email</td>
+      <td>Phone</td>
+    </tr>
+    <tr *ngFor="let contact of getContacts(); let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ contact.contactName }}</td>
+      <td>{{ contact.companyName }}</td>
+      <td>{{ contact.email }}</td>
+      <td>{{ contact.phoneNo }}</td>
+      <td>
+        <button
+          class="btn btn-outline-success"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+          id="edit"
+          (click)="showModalButton(false)"
+          (click)="editContactBeforeSaving(i)"
+        >
+          Edit
+        </button>
+      </td>
+      <td>
+        <button class="btn btn-outline-danger" (click)="deleteContact(i)">
+          Delete
+        </button>
+      </td>
+    </tr>
+  </table>
 </div>
