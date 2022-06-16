@@ -19,4 +19,4 @@ const ContactsSchema = mongoose.Schema({
 
 const Contact = module.exports = mongoose.model('Contact', ContactsSchema)
 
-//server -> features -> contact (control. model, repo., model )
+

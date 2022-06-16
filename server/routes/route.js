@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Contact = require("../models/contact");
-const controller = require("../contoller/contoller");
+const controller = require("../features/contact/contact-contoller");
 
 //read
 router.get("/getContacts", controller.getfn);
