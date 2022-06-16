@@ -1,8 +1,7 @@
 const {getContactsRepo, addContactRepo, deleteContactRepo, updateContactRepo} = require('./contact-respository')
 
 const getContacts = async () => {
-const contacts = await getContactsRepo()
-return contacts
+return await getContactsRepo()
 };
 
 const addContact = async (data) => {
@@ -11,8 +10,8 @@ const addContact = async (data) => {
 const deleteContact = async (id) => {
     return await deleteContactRepo(id)
 };
-const updateContact = async (id) => {
-    return await updateContactRepo(id) 
+const updateContact = async (id, update) => {
+    return await updateContactRepo(id, update) 
 };
 
 module.exports = {

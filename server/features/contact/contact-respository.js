@@ -9,8 +9,8 @@ const addContactRepo = async(data)=>{
 const deleteContactRepo = async(id)=>{
     return await Contact.findByIdAndDelete(id)
 }
-const updateContactRepo = async(id)=>{
-    return await Contact.findByIdAndUpdate(id)
+const updateContactRepo = async(id, update)=>{
+    return await Contact.findByIdAndUpdate(id, update)
 }
 
 module.exports={

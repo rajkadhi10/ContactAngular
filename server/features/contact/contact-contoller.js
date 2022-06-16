@@ -19,16 +19,16 @@ const getfn = async (req, res) => {
 //add
 const addfn = async (req, res) => {
   const newContact = new Contact({
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
+    contact: req.body.contact,
+    company: req.body.company,
+    email: req.body.email,
     phone: req.body.phone,
   });
   try {
     await addContact(newContact);
     res.json({ msg: "added" });
-    return;
   } catch (e) {
-    return res.json({ msg: "failed" });
+    res.json({ msg: "failed" });
   }
 };
 
@@ -39,17 +39,23 @@ const deletefn = async (req, res) => {
     await deleteContact({ _id: req.params.id });
     res.json({ msg: "deleted" });
   } catch (e) {
-    return res.json({ msg: "failed" });
+    res.json({ msg: "failed" });
   }
 };
 
 //upate
 const updatefn = async (req, res) => {
+  // const update = new Contact({
+  //   contact: req.body.contact,
+  //   company: req.body.company,
+  //   email: req.body.email,
+  //   phone: req.body.phone,
+  // });
   try {
-    await updateContact({ _id: req.params.id });
+    await updateContact({ _id: req.params.id }, req.body);   
     res.json({ msg: "updated" });
   } catch (e) {
-    return res.json({ msg: "failed" });
+   res.json({ msg: "failed" });
   }
 };
 module.exports = {
