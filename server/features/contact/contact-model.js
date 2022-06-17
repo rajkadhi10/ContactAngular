@@ -3,11 +3,15 @@
 const mongoose = require('mongoose')
 
 const ContactsSchema = mongoose.Schema({
-    first_name:{
+    contact:{
         type: String,
         required: true
     },
-    last_name:{
+    company:{
+        type: String,
+        required: true
+    },
+    email:{
         type: String,
         required: true
     },
@@ -18,3 +22,5 @@ const ContactsSchema = mongoose.Schema({
 })
 
 const Contact = module.exports = mongoose.model('Contact', ContactsSchema)
+
+

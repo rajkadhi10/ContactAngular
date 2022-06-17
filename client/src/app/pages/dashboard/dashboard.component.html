@@ -1,11 +1,11 @@
-<div class="conatiner-fluid">
-  <nav class="navbar navbar-light bg-primary">
-    <div class="container-fluid">
-      <h5 style="color: aliceblue">Address Book</h5>
+<div class="conatiner">
+  <nav class="navbar">
+    <div class="container">
+      <h5 style="color: aliceblue" class="addressBook">Address Book</h5>
       <div class="d-flex">
         <button
           id="buttonid"
-          class="btn btn-success"
+          class="btn btn-outline-success"
           data-bs-toggle="modal"
           data-bs-target="#exampleModal"
           (click)="showModalButton(true)"
@@ -122,16 +122,15 @@
     </div>
   </div>
 
-  <table class="table mt-5 table-hover">
-    <tr>
-      <td>id</td>
-      <td>Contact</td>
-      <td>Company</td>
-      <td>Email</td>
-      <td>Phone</td>
-    </tr>
+  <table class="table table-sm">
+      <tr style="border-bottom:1px solid rgb(209, 203, 203)">
+        <td>Contact</td>
+        <td>Company</td>
+        <td>Email</td>
+        <td>Phone</td>
+      </tr>
     <tr *ngFor="let contact of getContacts(); let i = index">
-      <td>{{ i + 1 }}</td>
+      <!-- <td>{{ i + 1 }}</td> -->
       <td>{{ contact.contactName }}</td>
       <td>{{ contact.companyName }}</td>
       <td>{{ contact.email }}</td>

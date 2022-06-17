@@ -1,41 +1,17 @@
-const express = require('express')
-const router = express.Router()
-
-const Contact = require('../models/contact')
+const express = require("express");
+const router = express.Router();
+const controller = require("../features/contact/contact-contoller");
 
 //read
-router.get('/contacts',(req, res, next)=>{
-Contact.find((err, contacts)=>{
-    res.json(contacts)
-})
-})
+router.get("/getContacts", controller.getfn);
 
 //add contact
-router.post('/contact',(req,res,next)=>{
-    let newContact = new Contact({
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        phone: req.body.phone
-    })
-    newContact.save((err, contact)=>{
-
-        if(err){
-            res.json({msg: 'Failed'})
-        }
-        res.json({msg: 'Contact added successfully'})
-
-    })
-})
-
+router.post("/addContact", controller.addfn);
 
 //delete
-router.delete('/contact/:id',(req,res,next)=>{
-    Contact.remove({_id: req.params.id}, ((err, result)=>{
-        if(err){
-            res.json(err)
-        }
-        res.json(result)
-    }))
-})
+router.delete("/deleteContact/:id", controller.deletefn);
 
-module.exports = router
+//update
+router.put("/updateContact/:id", controller.updatefn );
+
+module.exports = router;
