@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Contact } from 'src/app/model/contact';
+import { ContactService } from 'src/app/service/contact.service';
+
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
+  providers: [ContactService]
 })
 export class DashboardComponent implements OnInit {
   public isAdding: boolean = true;
@@ -16,8 +19,13 @@ export class DashboardComponent implements OnInit {
   contactForm: FormGroup;
 
   contact: Contact;
+  contactData = null;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private contactService: ContactService
+    
+    ) {}
 
   ngOnInit() {
     this.contactForm = this.formBuilder.group({
@@ -26,18 +34,12 @@ export class DashboardComponent implements OnInit {
       email: '',
       phoneNo: '',
     });
+    this.contactService.getContacts().subscribe((data)=>{
+      this.contactData= data;
+    })
   }
 
   contactList: Contact[] = [];
-
-  getContacts(): Contact[] {
-    return this.contactList;
-  }
-
-  deleteContact(id: number) {
-    const contactIndex = this.contactList.findIndex((d) => d.id == id);
-    this.contactList.splice(contactIndex, 1);
-  }
 
   editContactBeforeSaving(index: number) {
     const newLocal = this.contactList[index];
@@ -50,14 +52,6 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  addAndUpdate(isAdd = false) {
-    if (isAdd) {
-      this.contactList.push(this.contactForm.value);
-    } else {
-      this.contactList[this.editIndex] = this.contactForm.value;
-    }
-    this.contactForm.reset();
-  }
   showModalButton(isAdding = true) {
     if (isAdding) {
       this.isEditing = false;
@@ -68,5 +62,49 @@ export class DashboardComponent implements OnInit {
   }
   resetFormData() {
     this.contactForm.reset();
+  }
+
+  //get contact
+  getData(){
+    this.contactService.getContacts().subscribe((data)=>{
+      this.contactData= data;
+    })
+  }
+
+
+//add contact
+  submitData(value: any) {
+    const body = {
+      contactName: value.contactName,
+      companyName: value.companyName,
+      email: value.email,
+      phoneNo: value.phoneNo
+    }
+    this.contactService.addContact(body).subscribe(res => {
+      console.log(res);
+      })
+  }
+
+  //delete contact
+  delete(id: number) {
+    this.contactService.deleteContact(id).subscribe(response => {
+        console.log(response);
+        this.getData()
+      })
+  }
+
+  //updateContact
+  updateData(value: any) {
+    const body = {
+      contactName: value.contactName,
+      companyName: value.companyName,
+      email: value.email,
+      phoneNo: value.phoneNo
+    }
+
+    this.contactService.updateContact(body, this.id)
+      .subscribe(response => {
+        console.log(response)
+      })
   }
 }

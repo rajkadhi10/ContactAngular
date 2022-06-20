@@ -13,7 +13,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { NavbarComponent } from './inc/navbar/navbar.component';
 import { FooterComponent } from './inc/footer/footer.component';
-import { ContactService } from './service/contact.service';
+
 
 
 @NgModule({
@@ -34,7 +34,7 @@ import { ContactService } from './service/contact.service';
     HttpClientModule
     
   ],
-  providers: [ContactService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

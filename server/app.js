@@ -42,11 +42,6 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use('/api', route)
 
 
-//testng server
-app.get('/',(req,res)=>{
-    res.send('foobar')
-})
-
 app.listen(port,()=>{
     console.log('Server is running on port:'+port);
 })
